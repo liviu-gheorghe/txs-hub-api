@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using txs_hub_api.Models.Event;
@@ -8,6 +9,7 @@ namespace txs_hub_api.Controllers
 {
     [Route("api/events")]
     [ApiController]
+    [Authorize]
     public class EventsController : ControllerBase
     {
 
