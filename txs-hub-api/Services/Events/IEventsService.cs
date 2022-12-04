@@ -1,4 +1,5 @@
-﻿using txs_hub_api.Models.Event;
+﻿using Microsoft.AspNetCore.JsonPatch;
+using txs_hub_api.Models.Event;
 
 namespace txs_hub_api.Services.Events
 {
@@ -7,9 +8,13 @@ namespace txs_hub_api.Services.Events
 
         Task<List<Event>> GetAll();
 
-        Task Post(Event e);
+        Task<Event> Post(Event e);
 
         Task<Event> GetById(Guid id);
+
+        Task<Event?> UpdateById(Guid id, Event e);
+
+        Task<Event?> PartiallyUpdateById(Guid id, JsonPatchDocument<Event> e);
 
         Task<Event?> DeleteById(Guid id);
 

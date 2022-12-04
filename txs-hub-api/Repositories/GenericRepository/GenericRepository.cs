@@ -2,6 +2,7 @@
 using txs_hub_api.Models.Base;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace txs_hub_api.Repositories.GenericRepository
 {
@@ -25,27 +26,19 @@ namespace txs_hub_api.Repositories.GenericRepository
         public IQueryable<TEntity> GetAllAsQueryable()
         {
             return _table.AsQueryable();
-            // return _table.AsNoTracking();
-
-            //var entityList = _table.ToList();
-            //var entityListFiltered1 = entityList.Where(x => x.Id.ToString() != "");
-            //var entityListFiltered2 = _table.Where(x => x.Id.ToString() != "");
-
-
-            //// better version 
-            //// select * from entity where Id is not null
-            //var entityListFiltered3 = _table.Where(x => x.Id.ToString() != "").ToList();
         }
 
         // create
-        public void Create(TEntity entity)
+        public TEntity Create(TEntity entity)
         {
             _table.Add(entity);
+            return entity;
         }
 
-        public async Task CreateAsync(TEntity entity)
+        public async Task<TEntity> CreateAsync(TEntity entity)
         {
             await _table.AddAsync(entity);
+            return entity;
         }
 
         public void CreateRange(IEnumerable<TEntity> entities)
@@ -59,9 +52,28 @@ namespace txs_hub_api.Repositories.GenericRepository
         }
 
         // update
-        public void Update(TEntity entity)
+        public TEntity Update(TEntity entity)
         {
             _table.Update(entity);
+            return entity;
+        }
+
+        public TEntity PartiallyUpdate(Guid id, JsonPatchDocument<TEntity> entity)
+        {
+            var foundEntity = _table.Find(id);
+
+            if(foundEntity == null)
+            {
+                Console.WriteLine("found entity is null");
+                return foundEntity;
+            } else
+            {
+                Console.WriteLine("found entity is not null");
+            }
+            entity.ApplyTo(foundEntity);
+            _table.Update(foundEntity);
+            return foundEntity;
+
         }
 
         public void UpdateRange(IEnumerable<TEntity> entities)
@@ -85,25 +97,28 @@ namespace txs_hub_api.Repositories.GenericRepository
         public TEntity FindById(object id)
         {
             return _table.Find(id);
-
-            //another options
-            return _table.FirstOrDefault(x => x.Id.Equals(id));
-            return _table.Single(x => x.Id.Equals(id));
-            return _table.SingleOrDefault(x => x.Id.Equals(id));
-            return _table.Last(x => x.Id.Equals(id));
-            return _table.LastOrDefault(x => x.Id.Equals(id));
         }
 
         public async Task<TEntity> FindByIdAsync(object id)
         {
             return await _table.FindAsync(id);
+        }
 
-            //another options
-            //return await _table.FirstOrDefaultAsync(x => x.Id.Equals(id));
-            //return await _table.SingleAsync(x => x.Id.Equals(id));
-            //return await _table.SingleOrDefaultAsync(x => x.Id.Equals(id));
-            //return await _table.LastAsync(x => x.Id.Equals(id));
-            //return await _table.LastOrDefaultAsync(x => x.Id.Equals(id));
+        public TEntity? DeleteById(Guid entityId)
+        {
+            var entityToBeDeleted = _table.SingleOrDefault(x => x.Id.Equals(entityId));
+
+            Console.WriteLine(entityId);
+            Console.WriteLine(entityToBeDeleted);
+
+            if (entityToBeDeleted != null)
+            {
+                _table.Remove(entityToBeDeleted);
+                _context.SaveChanges();
+            }
+
+            return entityToBeDeleted;
+
         }
 
         // save
@@ -134,23 +149,6 @@ namespace txs_hub_api.Repositories.GenericRepository
             }
 
             return false;
-        }
-
-        public TEntity? DeleteById(Guid entityId)
-        {
-            var entityToBeDeleted = _table.SingleOrDefault(x => x.Id.Equals(entityId));
-
-            Console.WriteLine(entityId);
-            Console.WriteLine(entityToBeDeleted);
-
-            if (entityToBeDeleted != null)
-            {
-                _table.Remove(entityToBeDeleted);
-                _context.SaveChanges();
-            }
-
-            return entityToBeDeleted;
-            
         }
     }
 }

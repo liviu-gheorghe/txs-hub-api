@@ -1,36 +1,46 @@
-﻿using txs_hub_api.Models.Base;
+﻿using Microsoft.AspNetCore.JsonPatch;
+using txs_hub_api.Models.Base;
 
 namespace txs_hub_api.Repositories.GenericRepository
 {
     public interface IGenericRepository<TEntity> where TEntity : BaseEntity
     {
-        // get all data
+        // GET All
         Task<List<TEntity>> GetAllAsync();
+
         IQueryable<TEntity> GetAllAsQueryable();
 
-        // create
-        void Create(TEntity entity);
-        Task CreateAsync(TEntity entity);
+        // GET By Id
+        TEntity FindById(object id);
+        
+        Task<TEntity> FindByIdAsync(object id);
+
+        // Create
+        TEntity Create(TEntity entity);
+        
+        Task<TEntity> CreateAsync(TEntity entity);
+
         void CreateRange(IEnumerable<TEntity> entities);
+
         Task CreateRangeAsync(IEnumerable<TEntity> entities);
 
-        // update
-        void Update(TEntity entity);
+        // Update
+        TEntity Update(TEntity entity);
+
+        TEntity PartiallyUpdate(Guid id, JsonPatchDocument<TEntity> entity);
+
         void UpdateRange(IEnumerable<TEntity> entities);
 
-        // delete
+        // Delete
         void Delete(TEntity entity);
 
         TEntity? DeleteById(Guid entityId);
 
         void DeleteRange(IEnumerable<TEntity> entities);
 
-        // find 
-        TEntity FindById(object id);
-        Task<TEntity> FindByIdAsync(object id);
-
-        // save
+        // Save
         bool Save();
+
         Task<bool> SaveAsync();
     }
 }
