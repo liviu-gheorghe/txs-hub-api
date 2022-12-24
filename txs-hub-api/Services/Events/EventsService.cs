@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using txs_hub_api.Data;
-using txs_hub_api.Models.Event;
+using txs_hub_api.Models;
 using txs_hub_api.Repositories.EventRepository;
 
 namespace txs_hub_api.Services.Events

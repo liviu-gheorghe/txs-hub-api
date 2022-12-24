@@ -3,54 +3,55 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using txs_hub_api.Models;
-using txs_hub_api.Services.Events;
+using txs_hub_api.Services.Tickets;
 
 namespace txs_hub_api.Controllers
 {
-    [Route("api/events")]
+    [Route("api/tickets")]
     [ApiController]
     [Authorize]
-    public class EventsController : ControllerBase
+    public class TicketsController : ControllerBase
     {
 
-        public readonly IEventsService eventsService;
+        public readonly ITicketsService ticketsService;
 
-        public EventsController(IEventsService _eventsService)
+        public TicketsController(ITicketsService _ticketsService)
         {
-            eventsService = _eventsService;
+            ticketsService = _ticketsService;
         }
 
         [HttpGet]
-        public async Task<List<Event>> GetAllEvents()
+        public async Task<List<Ticket>> GetAllTickets()
         {
-            return await eventsService.GetAll();
+            return await ticketsService.GetAll();
         }
 
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] Event e)
+        public async Task<IActionResult> Post([FromBody] Ticket e)
         {
-            var createdResource = await eventsService.Post(e);
+            var createdResource = await ticketsService.Post(e);
 
             return Created("", createdResource);
 
         }
 
         [HttpGet("{id}")]
-        public async Task<Event> GetById([FromRoute] Guid id)
+        public async Task<Ticket> GetById([FromRoute] Guid id)
         {
-            return await eventsService.GetById(id);
+            return await ticketsService.GetById(id);
         }
 
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteById([FromRoute] Guid id)
         {
-             var foundEvent = await eventsService.DeleteById(id);
-            if(foundEvent != null)
+            var foundTicket = await ticketsService.DeleteById(id);
+            if (foundTicket != null)
             {
                 return NoContent();
-            } else
+            }
+            else
             {
                 return NotFound();
             }
@@ -59,22 +60,22 @@ namespace txs_hub_api.Controllers
 
         [HttpPut("{id}")]
 
-        public async Task<IActionResult> UpdateById([FromBody] Event e, [FromRoute] Guid id)
+        public async Task<IActionResult> UpdateById([FromBody] Ticket e, [FromRoute] Guid id)
         {
-            if(id.Equals(null))
+            if (id.Equals(null))
             {
                 return BadRequest("You must provide the id of the entity");
             }
 
-            if(id != e?.Id)
+            if (id != e?.Id)
             {
                 return BadRequest("The id provided in the path variables should match the one from the entity");
             }
 
-            var updatedEvent = await eventsService.UpdateById(id, e);
-            if (updatedEvent != null)
+            var updatedTicket = await ticketsService.UpdateById(id, e);
+            if (updatedTicket != null)
             {
-                return Ok(updatedEvent);
+                return Ok(updatedTicket);
             }
             else
             {
@@ -83,17 +84,17 @@ namespace txs_hub_api.Controllers
         }
 
         [HttpPatch("{id}")]
-        public async Task<IActionResult> PartiallyUpdateById([FromRoute] Guid id, [FromBody] JsonPatchDocument<Event> e)
+        public async Task<IActionResult> PartiallyUpdateById([FromRoute] Guid id, [FromBody] JsonPatchDocument<Ticket> e)
         {
             if (id.Equals(null))
             {
                 return BadRequest("You must provide the id of the entity");
             }
 
-            var updatedEvent = await eventsService.PartiallyUpdateById(id, e);
-            if (updatedEvent != null)
+            var updatedTicket = await ticketsService.PartiallyUpdateById(id, e);
+            if (updatedTicket != null)
             {
-                return Ok(updatedEvent);
+                return Ok(updatedTicket);
             }
             else
             {

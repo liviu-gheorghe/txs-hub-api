@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.JsonPatch;
-using txs_hub_api.Models.Event;
+using txs_hub_api.Models;
 
 namespace txs_hub_api.Services.Events
 {

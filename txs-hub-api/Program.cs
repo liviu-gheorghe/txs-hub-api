@@ -5,7 +5,7 @@ using txs_hub_api.Repositories;
 using txs_hub_api.Helpers.Extensions;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
-using txs_hub_api.Models.ApplicationUser;
+using txs_hub_api.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
