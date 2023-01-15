@@ -1,4 +1,5 @@
-﻿using txs_hub_api.Models.Base;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using txs_hub_api.Models.Base;
 
 namespace txs_hub_api.Models
 {
@@ -12,7 +13,7 @@ namespace txs_hub_api.Models
 
         public ApplicationUser Customer { get; set; }
 
-        public Event Event;
+        public Event Event { get; set; }
 
         public DateTime PurchaseDateTime { get; set; }
 

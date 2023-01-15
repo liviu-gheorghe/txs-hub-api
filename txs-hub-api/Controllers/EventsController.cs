@@ -9,7 +9,7 @@ namespace txs_hub_api.Controllers
 {
     [Route("api/events")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class EventsController : ControllerBase
     {
 

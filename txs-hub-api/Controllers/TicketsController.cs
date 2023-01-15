@@ -3,13 +3,16 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using txs_hub_api.Models;
+using txs_hub_api.Models.DTOs;
 using txs_hub_api.Services.Tickets;
+using AutoMapper;
+using txs_hub_api.Models.DTOs.Ticket;
 
 namespace txs_hub_api.Controllers
 {
     [Route("api/tickets")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class TicketsController : ControllerBase
     {
 
@@ -21,14 +24,14 @@ namespace txs_hub_api.Controllers
         }
 
         [HttpGet]
-        public async Task<List<Ticket>> GetAllTickets()
+        public async Task<List<TicketResponseDTO>> GetAllTickets()
         {
             return await ticketsService.GetAll();
         }
 
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] Ticket e)
+        public async Task<IActionResult> Post([FromBody] CreateTicketRequestDTO e)
         {
             var createdResource = await ticketsService.Post(e);
 
@@ -37,7 +40,7 @@ namespace txs_hub_api.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<Ticket> GetById([FromRoute] Guid id)
+        public async Task<TicketResponseDTO> GetById([FromRoute] Guid id)
         {
             return await ticketsService.GetById(id);
         }
@@ -60,7 +63,7 @@ namespace txs_hub_api.Controllers
 
         [HttpPut("{id}")]
 
-        public async Task<IActionResult> UpdateById([FromBody] Ticket e, [FromRoute] Guid id)
+        public async Task<IActionResult> UpdateById([FromBody] UpdateTicketRequestDTO e, [FromRoute] Guid id)
         {
             if (id.Equals(null))
             {
@@ -84,7 +87,7 @@ namespace txs_hub_api.Controllers
         }
 
         [HttpPatch("{id}")]
-        public async Task<IActionResult> PartiallyUpdateById([FromRoute] Guid id, [FromBody] JsonPatchDocument<Ticket> e)
+        public async Task<IActionResult> PartiallyUpdateById([FromRoute] Guid id, [FromBody] JsonPatchDocument<UpdateTicketRequestDTO> e)
         {
             if (id.Equals(null))
             {

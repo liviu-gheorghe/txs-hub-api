@@ -12,8 +12,8 @@ using txs_hub_api.Data;
 namespace txs_hub_api.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20221224212942_Add-Tickets")]
-    partial class AddTickets
+    [Migration("20230115120020_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -415,6 +415,9 @@ namespace txs_hub_api.Migrations
                     b.Property<DateTime?>("DateModified")
                         .HasColumnType("datetime2");
 
+                    b.Property<Guid>("EventId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTime>("PurchaseDateTime")
                         .HasColumnType("datetime2");
 
@@ -430,6 +433,8 @@ namespace txs_hub_api.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CustomerId");
+
+                    b.HasIndex("EventId");
 
                     b.ToTable("Tickets");
                 });
@@ -491,7 +496,15 @@ namespace txs_hub_api.Migrations
                         .WithMany()
                         .HasForeignKey("CustomerId");
 
+                    b.HasOne("txs_hub_api.Models.Event", "Event")
+                        .WithMany()
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Customer");
+
+                    b.Navigation("Event");
                 });
 #pragma warning restore 612, 618
         }

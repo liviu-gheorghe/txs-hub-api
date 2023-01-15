@@ -1,22 +1,24 @@
 ﻿using Microsoft.AspNetCore.JsonPatch;
 using txs_hub_api.Models;
+using txs_hub_api.Models.DTOs;
+using txs_hub_api.Models.DTOs.Ticket;
 
 namespace txs_hub_api.Services.Tickets
 {
     public interface ITicketsService
     {
 
-        Task<List<Ticket>> GetAll();
+        Task<List<TicketResponseDTO>> GetAll();
 
-        Task<Ticket> Post(Ticket e);
+        Task<TicketResponseDTO> Post(CreateTicketRequestDTO e);
 
-        Task<Ticket> GetById(Guid id);
+        Task<TicketResponseDTO> GetById(Guid id);
 
-        Task<Ticket?> UpdateById(Guid id, Ticket e);
+        Task<TicketResponseDTO?> UpdateById(Guid id, UpdateTicketRequestDTO e);
 
-        Task<Ticket?> PartiallyUpdateById(Guid id, JsonPatchDocument<Ticket> e);
+        Task<TicketResponseDTO?> PartiallyUpdateById(Guid id, JsonPatchDocument<UpdateTicketRequestDTO> e);
 
-        Task<Ticket?> DeleteById(Guid id);
+        Task<TicketResponseDTO?> DeleteById(Guid id);
 
     }
 }

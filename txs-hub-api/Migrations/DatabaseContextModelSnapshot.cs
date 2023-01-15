@@ -413,6 +413,9 @@ namespace txs_hub_api.Migrations
                     b.Property<DateTime?>("DateModified")
                         .HasColumnType("datetime2");
 
+                    b.Property<Guid>("EventId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTime>("PurchaseDateTime")
                         .HasColumnType("datetime2");
 
@@ -428,6 +431,8 @@ namespace txs_hub_api.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CustomerId");
+
+                    b.HasIndex("EventId");
 
                     b.ToTable("Tickets");
                 });
@@ -489,7 +494,15 @@ namespace txs_hub_api.Migrations
                         .WithMany()
                         .HasForeignKey("CustomerId");
 
+                    b.HasOne("txs_hub_api.Models.Event", "Event")
+                        .WithMany()
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Customer");
+
+                    b.Navigation("Event");
                 });
 #pragma warning restore 612, 618
         }
