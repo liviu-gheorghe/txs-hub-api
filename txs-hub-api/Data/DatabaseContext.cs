@@ -12,6 +12,7 @@ namespace txs_hub_api.Data
 
         public DbSet<Event> Events { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
+        public DbSet<Location> Locations { get; set; }
 
         public DatabaseContext(DbContextOptions<DatabaseContext> options, IOptions<OperationalStoreOptions> operationalStoreOptions) : base(options, operationalStoreOptions)
         {

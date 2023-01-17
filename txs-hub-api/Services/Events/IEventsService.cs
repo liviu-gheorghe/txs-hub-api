@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.JsonPatch;
 using txs_hub_api.Models;
+using txs_hub_api.Models.DTOs.Location;
 
 namespace txs_hub_api.Services.Events
 {
@@ -9,6 +10,8 @@ namespace txs_hub_api.Services.Events
         Task<List<Event>> GetAll();
 
         Task<Event> Post(Event e);
+
+        Task<List<LocationResponseDTO>> PostEventLocation(Guid eventId, List<Guid> location);
 
         Task<Event> GetById(Guid id);
 

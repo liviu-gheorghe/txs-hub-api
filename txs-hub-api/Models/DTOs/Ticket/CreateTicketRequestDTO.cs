@@ -2,6 +2,5 @@
 {
     public class CreateTicketRequestDTO: ITicketRequestDTO
     {
-        public Guid Id { get; set; }
     }
 }

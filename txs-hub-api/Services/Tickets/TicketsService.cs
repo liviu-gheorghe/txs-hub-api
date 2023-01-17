@@ -31,7 +31,9 @@ namespace txs_hub_api.Services.Tickets
 
         public async Task<TicketResponseDTO> Post(CreateTicketRequestDTO e)
         {
-            var createdTicket = await _ticketRepository.CreateAsync(_mapper.Map<Ticket>(e));
+
+            var ticketToBeCreated = _mapper.Map<Ticket>(e);
+            var createdTicket = await _ticketRepository.CreateAsync(ticketToBeCreated);
             await _ticketRepository.SaveAsync();
             return _mapper.Map<TicketResponseDTO>(createdTicket);
         }

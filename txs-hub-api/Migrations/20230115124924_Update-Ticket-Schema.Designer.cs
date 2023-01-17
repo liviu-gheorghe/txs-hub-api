@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using txs_hub_api.Data;
 
@@ -11,9 +12,10 @@ using txs_hub_api.Data;
 namespace txs_hub_api.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20230115124924_Update-Ticket-Schema")]
+    partial class UpdateTicketSchema
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -161,21 +163,6 @@ namespace txs_hub_api.Migrations
                     b.HasIndex("SubjectId", "SessionId", "Type");
 
                     b.ToTable("PersistedGrants", (string)null);
-                });
-
-            modelBuilder.Entity("EventLocation", b =>
-                {
-                    b.Property<Guid>("EventsId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("LocationsId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("EventsId", "LocationsId");
-
-                    b.HasIndex("LocationsId");
-
-                    b.ToTable("EventLocation");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -413,48 +400,6 @@ namespace txs_hub_api.Migrations
                     b.ToTable("Events");
                 });
 
-            modelBuilder.Entity("txs_hub_api.Models.Location", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("City")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Country")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("County")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("DateCreated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DateModified")
-                        .HasColumnType("datetime2");
-
-                    b.Property<decimal?>("Latitude")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal?>("Longitude")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("Region")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ZipCode")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Locations");
-                });
-
             modelBuilder.Entity("txs_hub_api.Models.Ticket", b =>
                 {
                     b.Property<Guid>("Id")
@@ -493,21 +438,6 @@ namespace txs_hub_api.Migrations
                     b.HasIndex("EventId");
 
                     b.ToTable("Tickets");
-                });
-
-            modelBuilder.Entity("EventLocation", b =>
-                {
-                    b.HasOne("txs_hub_api.Models.Event", null)
-                        .WithMany()
-                        .HasForeignKey("EventsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("txs_hub_api.Models.Location", null)
-                        .WithMany()
-                        .HasForeignKey("LocationsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

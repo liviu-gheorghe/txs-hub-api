@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using txs_hub_api.Models;
+using txs_hub_api.Models.DTOs.Location;
 using txs_hub_api.Services.Events;
 
 namespace txs_hub_api.Controllers
@@ -31,6 +32,17 @@ namespace txs_hub_api.Controllers
         public async Task<IActionResult> Post([FromBody] Event e)
         {
             var createdResource = await eventsService.Post(e);
+
+            return Created("", createdResource);
+
+        }
+
+        [HttpPost("{id}/locations/")]
+        public async Task<IActionResult> PostEventLocation([FromBody] List<Guid> locationIds)
+        {
+
+            var eventId = HttpContext.Request.RouteValues["id"].ToString();
+            var createdResource = await eventsService.PostEventLocation(Guid.Parse(eventId), locationIds);
 
             return Created("", createdResource);
 

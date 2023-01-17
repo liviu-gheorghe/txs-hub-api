@@ -12,8 +12,10 @@ namespace txs_hub_api.Models
         public string? TicketCategory { get; set; }
 
         public ApplicationUser Customer { get; set; }
+        public string CustomerId { get; set; }
 
         public Event Event { get; set; }
+        public Guid EventId { get; set; }
 
         public DateTime PurchaseDateTime { get; set; }
 

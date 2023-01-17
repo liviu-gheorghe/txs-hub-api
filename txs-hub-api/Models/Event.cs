@@ -17,7 +17,6 @@ namespace txs_hub_api.Models
 
         public DateTime EventStartDateTime { get; set; }
         public DateTime? EventEndDateTime { get; set; }
-
-
+        public virtual ICollection<Location>? Locations { get; set; } = new List<Location>();
     }
 }
