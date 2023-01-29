@@ -15,6 +15,6 @@ namespace txs_hub_api.Models
         public decimal? Latitude { get; set; }
         [Range(-180, 180)]
         public decimal? Longitude { get; set; }
-        public virtual ICollection<Event>? Events { get; set; } = new List<Event>();
+        public ICollection<Event>? Events { get; set; } = new List<Event>();
     }
 }

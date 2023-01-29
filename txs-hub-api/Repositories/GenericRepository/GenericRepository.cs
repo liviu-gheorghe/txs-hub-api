@@ -17,7 +17,7 @@ namespace txs_hub_api.Repositories.GenericRepository
             _table = _context.Set<TEntity>();
         }
 
-        public async Task<List<TEntity>> GetAllAsync()
+        public virtual async Task<List<TEntity>> GetAllAsync()
         {
             var allItems = await _table.AsNoTracking().ToListAsync();
             return allItems;
@@ -99,7 +99,7 @@ namespace txs_hub_api.Repositories.GenericRepository
             return _table.Find(id);
         }
 
-        public async Task<TEntity> FindByIdAsync(object id)
+        public virtual async Task<TEntity> FindByIdAsync(object id)
         {
             return await _table.FindAsync(id);
         }
