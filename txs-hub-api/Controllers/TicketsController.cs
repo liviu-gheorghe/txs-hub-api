@@ -12,7 +12,7 @@ namespace txs_hub_api.Controllers
 {
     [Route("api/tickets")]
     [ApiController]
-    //[Authorize]
+    [Authorize]
     public class TicketsController : ControllerBase
     {
 

@@ -23,7 +23,7 @@ namespace txs_hub_api.Repositories.GenericRepository
             return allItems;
         }
 
-        public IQueryable<TEntity> GetAllAsQueryable()
+        public virtual IQueryable<TEntity> GetAllAsQueryable()
         {
             return _table.AsQueryable();
         }
@@ -107,9 +107,6 @@ namespace txs_hub_api.Repositories.GenericRepository
         public TEntity? DeleteById(Guid entityId)
         {
             var entityToBeDeleted = _table.SingleOrDefault(x => x.Id.Equals(entityId));
-
-            Console.WriteLine(entityId);
-            Console.WriteLine(entityToBeDeleted);
 
             if (entityToBeDeleted != null)
             {

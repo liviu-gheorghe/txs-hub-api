@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using txs_hub_api.Data;
 using txs_hub_api.Models;
 using txs_hub_api.Models.DTOs.Location;
@@ -16,17 +17,31 @@ namespace txs_hub_api.Services.Events
         protected readonly IEventRepository _eventRepository;
         protected readonly ILocationRepository _locationRepository;
         protected IMapper _mapper;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public EventsService(IEventRepository _eventRepository, ILocationRepository _locationRepository, IMapper _mapper)
+        public EventsService(IEventRepository _eventRepository, ILocationRepository _locationRepository, IMapper _mapper, IHttpContextAccessor httpContextAccessor)
         {
             this._eventRepository = _eventRepository;
             this._locationRepository = _locationRepository;
             this._mapper = _mapper;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<List<Event>> GetAll()
         {
-            return await _eventRepository.GetAllAsync();
+
+            var events = _eventRepository.GetAllAsQueryable();
+
+
+            string searchQuery = _httpContextAccessor.HttpContext.Request.Query["search"];
+
+            if(!String.IsNullOrEmpty(searchQuery))
+            {
+                events = events.Where(x => x.EventTitle.ToLower().Contains(searchQuery.ToLower()) || x.EventDescription.ToLower().Contains(searchQuery.ToLower()));
+            }
+
+            return events.ToList();
+
         }
 
 

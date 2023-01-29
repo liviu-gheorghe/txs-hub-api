@@ -21,7 +21,8 @@ builder.Services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(b
 
 
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<DatabaseContext>();
+    .AddEntityFrameworkStores<DatabaseContext>()
+    .AddRoles<IdentityRole>();
 
 builder.Services.AddIdentityServer()
     .AddApiAuthorization<ApplicationUser, DatabaseContext>();
@@ -36,7 +37,7 @@ builder.Services.AddControllers().AddNewtonsoftJson(options => {
     options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
 });
 
-
+builder.Services.AddHttpContextAccessor();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

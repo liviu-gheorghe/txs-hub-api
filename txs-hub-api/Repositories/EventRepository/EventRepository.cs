@@ -19,6 +19,11 @@ namespace txs_hub_api.Repositories.EventRepository
             return allItems;
         }
 
+        public IQueryable<Event> GetAllAsQueryable()
+        {
+            return _table.Include(x => x.Locations).AsQueryable();
+        }
+
         public override async Task<Event> FindByIdAsync(object id)
         {
             return await this._context.Events.Include(x => x.Locations).FirstOrDefaultAsync(e => e.Id == (Guid) id);
