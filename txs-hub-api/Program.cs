@@ -21,8 +21,7 @@ builder.Services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(b
 
 
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<DatabaseContext>()
-    .AddRoles<IdentityRole>();
+    .AddEntityFrameworkStores<DatabaseContext>();
 
 builder.Services.AddIdentityServer()
     .AddApiAuthorization<ApplicationUser, DatabaseContext>();
@@ -56,6 +55,7 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
