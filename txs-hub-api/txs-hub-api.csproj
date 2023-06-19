@@ -5,6 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>txs_hub_api</RootNamespace>
+    <UserSecretsId>371899f0-4a62-43b3-b174-16a203bda77f</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

@@ -56,6 +56,7 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 var app = builder.Build();
 
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -68,7 +69,7 @@ app.UseStaticFiles();
 app.UseRouting();
 
 
-// Authentication & Authorization Middlewares 
+// Authentication & Authorization Middlewares
 
 app.UseAuthentication();
 app.UseIdentityServer();
